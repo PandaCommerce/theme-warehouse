@@ -1,0 +1,259 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8" />
+        <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1' /><![endif]-->
+        <title>
+        	{{ meta_title }}{% if current_tags %} &ndash; {{ lang.tagged | def:'tagged' }} &quot;{% for tag in current_tags %}{% if tag contains '_' %}{{ tag | split:'_' | last }}{% else %}{{ tag }}{% endif %}{% unless forloop.last %}, {% endunless %}{% endfor %}&quot;{% endif %}{% if current_page > 1 %} &ndash; {{ lang.page | def:'Page' }} {{ current_page }}{% endif %}{% unless meta_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+        </title>
+        {% if meta_description %}
+        <meta name="description" content="{{ meta_description | escape }}" />
+        {% endif %}
+        {% if meta_keywords %}
+        <meta name="keywords" content="{{ meta_keywords | escape }}" />
+        {% endif %}
+        {% comment %}The following is used for hreflang linking between stores sharing the same objects{% endcomment %}
+        {% if shops.size > 1 %}
+            {% for store in shops %}
+                {% capture sitehandle %}site{{ store.id }}{% endcapture %}
+                {% if template contains 'product' %}
+                    {% if product.sales_channels[sitehandle] %}
+                    <link rel="alternate" hreflang="{{ store.locale }}" href="{{ store.url }}/{{ store.handles.product }}/{{ product.handles[store.locale] }}" />
+                    {% endif %}
+                {% elseif template contains 'collection' %}
+                    {% if collection.sales_channels[sitehandle] %}
+                    <link rel="alternate" hreflang="{{ store.locale }}" href="{{ store.url }}/{{ store.handles.collection }}/{{ collection.handles[store.locale] }}" />
+                    {% endif %}
+                {% elseif template contains 'index' %}
+                    <link rel="alternate" hreflang="{{ store.locale }}" href="{{ store.url }}" />
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <link rel="canonical" href="{{ canonical_url }}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {% include 'open-graph-tags' %}
+        {% include 'twitter-card' %}
+        {% if settings.favicon_enable %}
+        <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" />
+        {% endif %}
+        <!-- Search Auto-Complete script by the cool guys at http://www.restfuldesign.com/ -->
+        {{ 'shop.scss' | asset_url | stylesheet_tag }}
+        {% include 'oldIE' %}
+        {% comment %}
+            (Part 1) Javascript snippet to prevent jQuery from blocking initial rendering, and also leave jQuery's $(document).ready() intact
+            This is also great for Google Pagespeed.
+            
+            !!ONLY PLACE ASYNCHRONOUS OR INLINE JAVASCRIPT IN HEADER!!
+        {% endcomment %}
+        <script>(function(w,d,u){w.readyQ=[];w.bindReadyQ=[];function p(x,y){if(x=="ready"){w.bindReadyQ.push(y);}else{w.readyQ.push(x);}};var a={ready:p,bind:p};w.$=w.jQuery=function(f){if(f===d||f===u){return a}else{p(f)}}})(window,document)</script>
+        {{ content_for_header }}
+        <script type="text/javascript">
+            $(function() {
+                $('html').removeClass('no-js').addClass('js');
+            });
+        </script>
+    </head>
+    <body id="{{ meta_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | split: ' ' | first | handle }}" >
+        <header class="site-header" role="banner">
+            <div class="wrapper">
+                <div class="grid--full">
+                	<div class="grid-item large--one-half">
+                		{% comment %}
+                			Use the uploaded logo from theme settings if enabled.
+                			Site name gets precedence with H1 tag on homepage, div on other pages.
+                		{% endcomment %}
+                		{% if template == 'index' %}
+                			<h1 class="header-logo large--left" itemscope itemtype="http://schema.org/Organization">
+                		{% else %}
+                			<div class="h1 header-logo large--left" itemscope itemtype="http://schema.org/Organization">
+                		{% endif %}
+                			{% if settings.logo_use_image %}
+                				<a href="/" itemprop="url">
+                					<img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" itemprop="logo">
+                				</a>
+                			{% else %}
+                				<a href="/" itemprop="url">{{ shop.name }}</a>
+                			{% endif %}
+                		{% if template == 'index' %}
+                			</h1>
+                		{% else %}
+                			</div>
+                		{% endif %}
+                	</div>
+                	<div class="grid-item large--one-half text-center large--text-right">
+                		{% comment %}
+                			If customer accounts are enabled, provide login and create account links
+                		{% endcomment %}
+                		{% if settings.header_message != blank or shop.customer_accounts_enabled %}
+                		<p class="site-header--text-links">
+                		    {{ settings.header_message }}
+                		    {% if shop.customer_accounts_enabled %}
+                		    <span class="medium-down--hide">
+                    			{% if customer %}
+                    				{{ lang.logged_in_as | def:'Logged in as' }} <a href="/{{ shop.handles.account }}">{{ customer.first_name }}</a> &middot; {{ lang.log_out | def:'Log out' | customer_logout_link }}
+                    			{% else %}
+                    				{{ lang.log_in | def:'Log in' | customer_login_link }}
+                    				{% if shop.customer_accounts_optional %}
+                    				{{ lang.or | def:'or' }} {{ lang.create_an_account | def:'Create an account' | customer_register_link }}
+                    				{% endif %}
+                    			{% endif %}
+                			</span>
+                			{% endif %}
+                		</p>
+                		{% endif %}
+                		{% comment %}
+                			You cart/checkout link should at least show the number of items in it.
+                			Below shows the item count followed by item(s) and the total cart price.
+                		{% endcomment %}
+                		
+                		{% form 'search' class: 'search-bar medium-down--hide' %} 
+                            <input type="hidden" name="type" value="product">
+                            <input type="search" autocomplete="off" name="q" value="{{ search.terms | escape }}" placeholder="{{ lang.search_our_store | def:'Search our store' | escape }}" class="input-group-field" />
+                            <button type="submit" class="btn"><i class="panda-icon-ui-search"></i></button>
+                        {% endform %}
+                		<a href="/{{ shop.handles.cart }}" class="header-cart-btn medium-down--hide">
+                			<i class="panda-icon-ui-cart"></i> {{ lang.cart |def:'Cart' }}
+                			{% if cart.line_items_quantity > 0 %}
+                			<span class="cart-count">{{ cart.line_items_quantity }}</span>
+                			{% endif %}
+                		</a>
+                	</div>
+                </div>
+            </div>
+        </header>
+        <nav class="nav-bar" role="navigation">
+            <div class="wrapper">
+                <div class="grid">
+                    <div class="grid-item">
+                        {% include 'site-nav' %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div id="mobileNavBar" class="wrapper">
+            <div>
+                <a class="menu-toggle" href="javascript:void(0);"><i class="panda-icon-ui-handle"></i> {{ lang.menu | def:'Menu' }}</a>
+            </div>
+            <div class="text-right">
+                <a href="/{{ shop.handles.cart }}"><i class="panda-icon-ui-cart"></i> {{ lang.cart | def:'Cart' }} {% if cart.line_items_quantity > 0 %}<span class="cart-count">{{ cart.line_items_quantity }}</span>{% endif %}</a>
+            </div>
+        </div>
+        
+        <main class="wrapper main-content" role="main">
+            {% comment %}}
+                We have a template file to render.
+                That's what content_for_layout is for.
+            {% endcomment %}
+            {{ content_for_layout }}
+        </main>
+
+            
+        <footer class="site-footer small--text-center" role="contentinfo">
+
+        	<div class="wrapper">
+        
+        		<div class="grid">
+        
+        			{% if settings.footer_quicklinks_enable %}
+        				<div class="grid-item medium--one-half large--three-twelfths">
+        					<h3>{{ linklists[settings.footer_quicklinks_linklist].title }}</h3>
+        					<ul>
+        						{% for link in linklists[settings.footer_quicklinks_linklist].links %}
+        							<li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        						{% endfor %}
+        					</ul>
+        				</div>
+        			{% endif %}
+        
+        			{% if settings.footer_social_enable %}
+        			<div class="grid-item medium--one-half large--five-twelfths">
+        				<h3>{{ lang.social_media_title | def:'Get Connected' }}</h3>
+        					{% comment %}
+        						Loop through the social network links
+        					{% endcomment %}
+        					{% include 'social-links' %}
+        			</div>
+        			{% endif %}
+        
+        			{% if settings.footer_newsletter_enable %}
+        			<div class="grid-item large--one-third">
+        				<h3>{{ lang.newsletter | def:'Newsletter' }}</h3>
+        				{% form 'create_customer' id:'newsletter-signup' %}
+        				    {% if form.posted_successfully or form.errors %}
+                                <script type="text/javascript">window.location.hash = '#newsletter-signup';</script>
+                            {% endif %}
+                            {% include 'form-errors-custom' %}
+                            {% if form.posted_successfully %}
+                            <p class="note form-success">
+                                {{ lang.thanks_for_subscribing | def: 'Thank you for subscribing to our newsletter!' }}
+                            </p>
+                            {% else %}
+                                <input type="hidden" name="customer[accepts_marketing]" value="1" />
+                                <input type="hidden" name="customer[tags]" value="prospect,newsletter" />
+                                <label class="hidden-label">{{ lang.fill_in_your_email | def:'Fill in your e-mail' }}</label>
+                                <div class="input-group">
+                                    <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ lang.fill_in_your_email | def:'yourname@domain.com' | escape }}" name="customer[email]" class="input-group-field{% if form.errors contains 'email' %} error{% endif %}" autocorrect="off" autocapitalize="off">
+                                    <span class="input-group-btn">
+                                        <input type="submit" class="btn btn-secondary" value="{{ lang.subscribe | def:'Subscribe' | escape }}" name="subscribe">
+                                    </span>
+                                </div>
+                            {% endif %}
+                        {% endform %}
+        			</div>
+        			{% endif %}
+        		</div>
+        
+        		<hr>
+        		{% if shops.size > 1 %}
+        		    <div class="text-center">
+            		    <p class="large--text-left">
+                		{% for store in shops %}
+                		    <a href="{{ store.url }}">{{ store.name }}</a>
+                		    {% unless forloop.last %}
+                		        &ndash;
+                		    {% endunless %}
+                		{% endfor %}
+                		</p>
+            		</div>
+            		<hr class="hr--clear">
+        		{% endif %}
+        
+                <div class="grid text-center ">
+                    <div class="large--text-left grid-item large--two-thirds">
+                        Copyright &copy; {{ now | date:'Y' }} {{ shop.name }}<br>
+        			    <small>{{ powered_by_link }}</small>
+                    </div>
+                    <div class="large--text-right grid-item large--one-third">
+                        {% if shop.enabled_payment_icons.size > 0 %}
+                            <div class="payment-icons">
+                            {% for payment in shop.enabled_payment_icons %}
+                                <i class="panda-icon-payment-{{ payment }}"></i>
+                            {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+        
+        	</div>
+        
+        </footer>
+        {% comment %}
+            (Part 2) Loading jQuery after content has been rendered
+        {% endcomment %}
+        {{ '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' | script_tag }}
+        {{ 'shop.js' | asset_url | script_tag }}
+        {% if template contains 'product' %}
+        {% comment %}JavaScript with helper classes used for variant options and product reviews{% endcomment %}
+        <script src="/static/global/product_helper.js"></script>
+        {% endif %}
+        {% if template contains 'addresses' %}
+        {% comment %}JavaScript with helper classes used for address forms{% endcomment %}
+        <script src="/static/global/account_helper.js"></script>
+        {% endif %}
+        <script>(function($,d){$.each(readyQ,function(i,f){$(f)});$.each(bindReadyQ,function(i,f){$(d).bind("ready",f)})})(jQuery,document)</script>
+    </body>
+</html>

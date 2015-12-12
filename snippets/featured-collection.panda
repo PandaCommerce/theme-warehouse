@@ -1,0 +1,23 @@
+{% unless featured_collection_width %}
+  {% assign featured_collection_width = 'small--one-half medium--one-third large--one-sixth' %}
+{% endunless %}
+
+{% unless featured_collection_size %}
+  {% assign featured_collection_size = 'medium' %}
+{% endunless %}
+
+<div class="grid-item {{ featured_collection_width }}">
+
+  {% capture collection_title %}{{ collections[featured].title | escape }}{% endcapture %}
+
+  <a href="{{ collections[featured].url }}" title="{{ lang.browse | def:'Browse' | escape }} {{ collection_title }}" class="featured-box">
+    <div class="featured-box--inner">
+      <div class="collection-grid-image text-center">
+          {{ collections[featured].image | collection_img_url: featured_collection_size | img_tag: collection_title }}
+      </div>
+    </div>
+
+    <span class="featured-box--title">{{ collection_title }}</span>
+  </a>
+
+</div>

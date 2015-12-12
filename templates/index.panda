@@ -1,0 +1,111 @@
+{% if settings.show_slideshow %}
+<div class="flexslider">
+    <ul class="slides">
+        {% for slide in settings.slideshow_slides %}
+            {% capture slide_img %}slide_{{ forloop.index0 }}.jpg{% endcapture %}
+            <li>
+                <a class="slide-link" href="{{ slide.slide_link_url }}">
+                    <img src="{{ slide_img | asset_url }}" alt="{{ slide.slide_button_caption | escape }}" />
+                    {% if slide.slide_button_caption.size > 0 %}
+                    <div class="slide-btn-wrapper text-{{ slide.slide_button_alignment }}">
+                        <span class="btn">{{ slide.slide_button_caption }}</span>
+                    </div>
+                    {% endif %}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+<script type="text/javascript">
+    $(function() {
+      $('.flexslider').flexslider({
+        animation: "fade",
+        controlNav: true,
+        touch:true,
+        slideshow: {{ settings.slideshow_autoplay | def:'true' }},
+        slideshowSpeed: {{ settings.slideshow_autoplay_seconds | def:'3' | times: 1000 }}
+      });
+    });
+</script>
+{% endif %}
+
+{% if settings.show_page_frontpage %}
+    {% unless settings.homepage_page == '' or pages[settings.homepage_page] == empty %}
+        {% comment %}
+        The reason why we are using the page's h1_title in a h2 tag is because on the first page shop.name is used as h1 tag in theme.panda
+        {% endcomment %}
+        <h2>{{ pages[settings.homepage_page].h1_title }}</h2>
+        <div class="rte">
+        {{ pages[settings.homepage_page].content }}
+        </div>
+        <hr>
+    {% endunless %}
+{% endif %}
+
+{% if settings.show_featured_collections %}
+<div class="section-header">
+    <p class="h2 section-header--left">{{ lang.featured_collections | def :'Featured Collections'}}</p>
+    <div class="section-header--right">
+        <a href="/{{ shop.handles.collection }}">{{ lang.list_collections | def: 'Our Collections'}} {{ collection.title }} &rsaquo;</a>
+    </div>
+</div>
+
+<div class="grid-uniform">
+	{% assign index = 0 %}
+
+    {% if settings.featured_collections_fetch == 'manual' %}
+        {% assign index = settings.featured_collection.size %}
+    {% else %}
+      {% for collection in collections limit:8 %}
+        {% unless index >= 6 %}
+          {% unless collection.handle == 'frontpage' or collection.type == 'default' %} 
+            {% assign index = index | plus: 1 %}
+          {% endunless %}
+        {% endunless %}
+      {% endfor %}
+    {% endif %}
+    
+    {% case index %}
+      {% when 1 %}
+        {% assign featured_collection_width = 'one-half' %}
+        {% assign featured_collection_size = 'large' %}
+      {% when 2 %}
+        {% assign featured_collection_width = 'one-half' %}
+        {% assign featured_collection_size = 'large' %}
+      {% when 3 %}
+        {% assign featured_collection_width = 'small--one-half one-third' %}
+      {% when 4 %}
+        {% assign featured_collection_width = 'small--one-half one-quarter' %}
+      {% when 5 %}
+        {% assign featured_collection_width = 'small--one-half medium--one-third large--one-fifth' %}
+      {% when 6 %}
+        {% assign featured_collection_width = 'small--one-half medium--one-third large--one-sixth' %}
+    {% endcase %}
+    
+    {% if settings.featured_collections_fetch == 'manual' %}
+        {% for coll in settings.featured_collection %}
+            {% assign featured = coll.collection %}
+            {% include 'featured-collection' %}
+        {% endfor %}
+    {% else %}
+      {% assign index = 0 %}
+      {% for collection in collections limit:8 %}
+        {% unless index >= 6 %}
+          {% unless collection.handle == 'frontpage' or collection.type == 'default' %}
+            {% assign featured = collection.handle %}
+            {% include 'featured-collection' %}
+            {% assign index = index | plus: 1 %}
+          {% endunless %}
+        {% endunless %}
+      {% endfor %}
+    {% endif %}
+</div>
+
+{% endif %}
+
+{% for row in settings.collection_row %}
+    <hr/>
+    {% assign collection = collections[row.collection_for_row] %}
+    {% assign num_rows = row.collection_row_rows %}
+    {% include 'collection-list-item' %}
+{% endfor %}

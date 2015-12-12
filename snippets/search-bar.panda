@@ -1,0 +1,7 @@
+{% form 'search' class: 'input-group search-bar' %}
+    <input type="hidden" name="type" value="product">
+    <input type="search" name="q" autocomplete="off" value="{{ search.terms | escape }}" placeholder="{{ lang.search_our_store | def:'Search our store' | escape }}" class="input-group-field" {% if autofocus %}autofocus{% endif %} />
+    <span class="input-group-btn"> 
+        <button type="submit" class="btn"><i class="panda-icon-ui-search"></i></button>
+    </span>
+{% endform %}

@@ -1,0 +1,16 @@
+{% assign collection_list_title = lang.list_collections | def: 'Our Collections' %}
+{% title collection_list_title %}
+{% include 'breadcrumbs' with collection_list_title class:'gutter' %} 
+{% comment %}
+    Loop through each collection, except 'frontpage'
+{% endcomment %}
+{% assign colnum = 0 %}
+{% for collection in collections %}
+    {% unless collection.handle == 'frontpage' %}
+        {% assign colnum = colnum | plus: 1 %}
+        {% if colnum > 1 %}
+            <hr/>
+        {% endif %}
+        {% include 'collection-list-item' %}
+    {% endunless %}
+{% endfor %}

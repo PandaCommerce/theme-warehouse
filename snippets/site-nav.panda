@@ -1,0 +1,49 @@
+{% comment %}
+List out your main-menu linklist (default)
+More info on linklists:
+{% endcomment %}
+<div class="large--hide mobile-search">
+    {% include 'search-bar' %}
+</div>
+<ul class="site-nav">
+    {% unless linklists.main-menu.links.first.url == '/' %}
+        <li class="large--hide"><a href="/">{{ lang.home | def:'Home' }}</a></li>
+    {% endunless %}
+	{% for link in linklists.main-menu.links %}
+		{% comment %}
+			Create a dropdown menu if link type if linklist
+		{% endcomment %}
+		{% if link.type == 'linklist' and linklists[link.object.handle].links != blank %}
+		<li class="site-nav--has-dropdown{% if link.active %} site-nav--active{% endif %}" aria-haspopup="true">
+			<a href="{{ link.url }}">{{ link.title }} <i class="panda-icon-ui-arrow-down"></i></a>
+			<ul class="site-nav--dropdown">
+			{% for childlink in linklists[link.object.handle].links %}
+				<li {% if childlink.active %}class="site-nav--active"{% endif %}><a href="{{ childlink.url }}">{{ childlink.title | escape }}</a></li>
+			{% endfor %}
+			</ul>
+		</li>
+		{% else %}
+			<li {% if link.active %}class="site-nav--active"{% endif %}>
+				<a href="{{ link.url }}">{{ link.title }}</a>
+			</li>
+		{% endif %}
+	{% endfor %}
+	{% if shop.customer_accounts_enabled %}
+	</li>
+	{% if customer %}
+	    <li class="large--hide customer-link">
+		    <a href="/{{ shop.handles.account }}">{{ lang.my_account | def:'My Account' }}</a>
+		</li>
+		<li class="large--hide customer-link">
+		    {{ lang.log_out | def:'Log out' | customer_logout_link }}
+		</li>
+	{% else %}
+	    <li class="large--hide customer-link">
+		    {{ lang.log_in | def:'Log in' | customer_login_link }}
+		</li>
+		<li class="large--hide customer-link">
+		    {{ lang.create_an_account | def:'Create an account' | customer_register_link }}
+		</li>
+	{% endif %}
+	{% endif %}
+</ul>

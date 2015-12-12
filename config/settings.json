@@ -1,0 +1,510 @@
+{
+    "unique_theme_id":"warehouse",
+    "description":"Settings for Warehouse theme",
+    "colors":{
+        "caption":"Colors",
+        "type":"section",
+        "settings":{
+            "general_colors":{ 
+                "caption":"General Colors",
+                "type":"header"
+            },
+            "color_primary":{
+                "caption":"Primary Color",
+                "type":"color",
+                "default":"#204a80",
+                "description":"Used for text links and primary buttons"
+            },
+            "color_secondary":{
+                "caption":"Secondary Color",
+                "type":"color",
+                "default":"#dcdcdc",
+                "description":"Used for secondary buttons"
+            },
+            "color_body_bg":{
+                "caption":"Body Background",
+                "type":"color",
+                "default":"#fff"
+            },
+            "color_borders":{
+                "caption":"Border color",
+                "type":"color",
+                "default":"#e5e5e5"
+            },
+            "header":{
+                "caption":"Header",
+                "type":"header"
+            },
+            "color_header_bg":{
+                "caption":"Header background",
+                "type":"color",
+                "default":"#204a80"
+            },
+            "color_header_text":{
+                "caption":"Header text and links",
+                "type":"color",
+                "default":"#ffffff"
+            },
+            "color_header_block_bg":{
+                "caption":"Header cart and search background",
+                "type":"color",
+                "default":"#ffffff"
+            },
+            "color_header_nav_bg":{
+                "caption":"Navigation background",
+                "type":"color",
+                "default":"#f2f2f2"
+            },
+            "color_header_nav_text":{
+                "caption":"Navigation Link Color",
+                "type":"color",
+                "default":"#333333"
+            },
+            "body":{
+                "caption":"Body",
+                "type":"header"
+            },
+            "color_body_text":{
+                "caption":"Body Text",
+                "type":"color",
+                "default":"#333333"
+            },
+            "footer":{
+                "caption":"Footer",
+                "type":"header"
+            },
+            "color_footer_bg":{
+                "caption":"Footer background",
+                "type":"color",
+                "default":"#f2f2f2"
+            },
+            "color_footer_text":{
+                "caption":"Footer text",
+                "type":"color",
+                "default":"#636363"
+            },
+            "color_footer_link":{
+                "caption":"Footer Links",
+                "type":"color",
+                "default":"#bbbbbb"
+            }
+        }   
+    },
+    "typography":{
+        "caption":"Typography",
+        "type":"section",
+        "settings":{
+            "base_styles":{
+                "caption":"Base Styles",
+                "type":"header"
+            },
+            "base_font_family":{
+                "caption":"Typeface",
+                "type":"font",
+                "extra_fonts":[
+                    "'Source Sans Pro', sans-serif"
+                ]
+            },
+            "base_font_size":{
+                "caption":"Base font size",
+                "type":"select",
+                "options":[
+                    {"value":"13px","caption":"13px"},
+                    {"value":"14px","caption":"14px"},
+                    {"value":"15px","caption":"15px"},
+                    {"value":"16px","caption":"16px"}
+                ]
+            },
+            "header_styles":{
+                "caption":"Header Styles",
+                "type":"header"
+            },
+            "header_font_family":{
+                "caption":"Typeface",
+                "type":"font",
+                "extra_fonts":[
+                    "'Source Sans Pro', sans-serif"
+                ]
+            }
+        }
+    },
+    "header":{
+        "caption":"Header",
+        "type":"section",
+        "settings":{
+            "logo_options":{
+                "caption":"Logo Options",
+                "type":"header"
+            },
+            "logo_use_image":{
+                "caption":"Use Custom Logo",
+                "type":"checkbox",
+                "default":false
+            },
+            "logo_image":{
+                "caption":"Custom Logo",
+                "type":"asset",
+                "filename":"logo.png",
+                "max-width":1200,
+                "max-height":1200,
+                "description":"Recommend the optimal width and height for your logo here."
+            },
+            "favicon":{
+                "caption":"Favicon",
+                "type":"header"
+            },
+            "favicon_enable":{
+                "caption":"Enable custom favicon",
+                "type":"checkbox",
+                "default":false
+            },
+            "favicon_image":{
+                "caption":"Favicon",
+                "type":"asset",
+                "filename":"favicon.png",
+                "max-width":32,
+                "max-height":32,
+                "description":"32px x 32px png"
+            },
+            "header_message":{
+                "caption":"Header Message",
+                "type":"header"
+            },
+            "header_message":{
+                "caption":"Header Message",
+                "type":"text",
+                "max-length":55,
+                "description":"(max 55 characters)"
+            }
+        }
+    },
+    "social_media":{
+        "caption":"Social Media",
+        "type":"section",
+        "settings":{
+            "share_links":{
+                "caption":"Share links",
+                "type":"header"
+            },
+            "social_sharing_count":{
+                "caption":"Display sharing count",
+                "type":"checkbox",
+                "default":false
+            },
+            "share_facebook":{
+                "caption":"Share on Facebook",
+                "type":"checkbox",
+                "default":true
+            },
+            "share_twitter":{
+                "caption":"Share on Twitter",
+                "type":"checkbox",
+                "default":true
+            },
+            "share_pinterest":{
+                "caption":"Share on Pinterest",
+                "type":"checkbox",
+                "default":true
+            },
+            "share_google":{
+                "caption":"Share on Google+",
+                "type":"checkbox",
+                "default":true
+            },
+            "social_links":{
+                "caption":"Social links",
+                "type":"header",
+                "description":"All links, except the email one, must begin with <i>http://</i>, <i>https://</i> or <i>//</i>. The email must be your email address with no <i>mailto:</i> prefix. Leave the text box blank if you don't want to use the corresponding icon."
+            },
+            "facebook_url":{
+                "caption":"Facebook URL",
+                "type":"text"
+            },
+            "twitter_url":{
+                "caption":"Twitter URL",
+                "type":"text"
+            },
+            "pinterest_url":{
+                "caption":"Pinterest URL",
+                "type":"text"
+            },
+            "googleplus_url":{
+                "caption":"Google+ URL",
+                "type":"text"
+            },
+            "flickr_url":{
+                "caption":"Flickr URL",
+                "type":"text"
+            },
+            "instagram_url":{
+                "caption":"Instagram URL",
+                "type":"text"
+            },
+            "linkedin_url":{
+                "caption":"LinkedIn URL",
+                "type":"text"
+            },
+            "vimeo_url":{
+                "caption":"Vimeo URL",
+                "type":"text"
+            },
+            "vimeo_url":{
+                "caption":"Vimeo URL",
+                "type":"text"
+            },
+            "youtube_url":{
+                "caption":"YouTube URL",
+                "type":"text"
+            },
+            "tumblr_url":{
+                "caption":"Tumblr URL",
+                "type":"text"
+            },
+            "featured_blog":{
+                "caption":"Blog Feed",
+                "type":"blog",
+                "default":"news"
+            },
+            "display_email_icon":{
+                "caption":"Display e-mail icon",
+                "type":"checkbox",
+                "default":true
+            },
+            "social_icons_style":{
+                "caption":"Social icons style",
+                "type":"select",
+                "options":[
+                    {"value":"","caption":"Silhouette"},
+                    {"value":"-circle","caption":"Circle"},
+                    {"value":"-rounded","caption":"Rounded corners"},
+                    {"value":"-square","caption":"Square"}
+                ]
+            },
+            "social_icons_color":{
+                "caption":"Color social icons",
+                "type":"checkbox",
+                "default":false
+            }
+        }
+    },
+    "footer":{
+        "caption":"Footer",
+        "type":"section",
+        "settings":{
+            "quick_links":{
+                "caption":"Quick links",
+                "type":"header"
+            },
+            "footer_quicklinks_enable":{
+                "caption":"Show quick links",
+                "type":"checkbox",
+                "default":true
+            },
+            "footer_quicklinks_linklist":{
+                "caption":"Quick links link list",
+                "type":"linklist",
+                "default":"footer"
+            },
+            "social_media":{
+                "caption":"Social Media",
+                "type":"header"
+            },
+            "footer_social_enable":{
+                "caption":"Show social media links",
+                "type":"checkbox",
+                "default":false
+            },
+            "newsletter_form":{
+                "caption":"Newsletter form",
+                "type":"header"
+            },
+            "footer_newsletter_enable":{
+                "caption":"Show Newsletter Field",
+                "type":"checkbox",
+                "default":false
+            }
+        }
+    },
+    "homepage":{
+        "caption":"Homepage",
+        "type":"section",
+        "settings":{
+            "content":{
+                "caption":"Content",
+                "type":"header"
+            },
+            "show_page_frontpage":{
+                "caption":"Show page on frontpage",
+                "type":"checkbox",
+                "default":true
+            },
+            "homepage_page":{
+                "caption":"Show content from this page",
+                "type":"page",
+                "default":"welcome"
+            },
+            "slideshow":{
+                "caption":"Slideshow",
+                "type":"header"
+            },
+            "show_slideshow":{
+                "caption":"Show Slideshow",
+                "type":"checkbox",
+                "default":true
+            },
+            "slideshow_autoplay":{
+                "caption":"Auto play slideshow",
+                "type":"checkbox",
+                "default":true
+            },
+            "slideshow_autoplay_seconds":{
+                "caption":"Seconds between slides",
+                "type":"select",
+                "options":[
+                    {"value":"3","caption":"3"},
+                    {"value":"5","caption":"5"},
+                    {"value":"7","caption":"7"},
+                    {"value":"10","caption":"10"}
+                ]
+            },
+            "slideshow_slides":{
+                "caption":"Slide",
+                "type":"struct",
+                "struct":{
+                    "slide_image":{
+                        "caption":"Image for slide",
+                        "type":"asset",
+                        "filename":"slide.jpg",
+                        "max-width":1132,
+                        "max-height":500,
+                        "description":"Recommended size 1132x500"
+                    },
+                    "slide_button_caption":{
+                        "caption":"Button Caption",
+                        "type":"text"
+                    },
+                    "slide_link_url":{
+                        "caption":"Link URL",
+                        "type":"text"
+                    },
+                    "slide_button_alignment":{
+                        "caption":"Button Alignment",
+                        "type":"select",
+                        "options":[
+                            {"value":"left","caption":"Left"},
+                            {"value":"center","caption":"Center"},
+                            {"value":"right","caption":"Right"}
+                        ]
+                    }
+                }
+            },
+            "featured_collections":{
+                "caption":"Featured Collections",
+                "type":"header"
+            },
+            "show_featured_collections":{
+                "caption":"Show featured collections",
+                "type":"checkbox",
+                "default":true
+            },
+            "featured_collections_fetch":{
+                "caption":"Get Featured Collections",
+                "type":"radio",
+                "options":[
+                    {"value":"auto","caption":"Automatic"},
+                    {"value":"manual","caption":"Manually (select below)"}
+                ],
+                "default":"auto"
+            },
+            "featured_collection":{
+                "caption":"Featured Collection",
+                "type":"struct",
+                "struct":{
+                    "collection":{
+                        "caption":"Collection",
+                        "type":"collection"
+                    }
+                }
+            },
+            "collection_rows_title":{
+                "caption":"Collection Rows",
+                "type":"header"
+            },
+            "collection_row":{
+                "caption":"Collection Row",
+                "type":"struct",
+                "struct":{
+                    "collection_for_row":{
+                        "caption":"Collection for Row",
+                        "type":"collection"
+                    },
+                    "collection_row_rows":{
+                        "caption":"Rows to show",
+                        "type":"select",
+                        "options":[
+                            {"value":"1","caption":"1"},
+                            {"value":"2","caption":"2"},
+                            {"value":"3","caption":"3"},
+                            {"value":"4","caption":"4"}
+                        ],
+                        "description":"(5 per row)"
+                    }
+                }
+            }
+        }
+    },
+    "products":{
+        "caption":"Products",
+        "type":"section",
+        "settings":{
+            "enable_product_zoom":{
+                "caption":"Enable product zoom",
+                "type":"checkbox",
+                "default":true
+            },
+            "quantity_selector":{
+                "caption":"Enable quantity selector",
+                "type":"checkbox",
+                "default":true
+            },
+            "related_products_enabled":{
+                "caption":"Show related products",
+                "type":"checkbox",
+                "default":true
+            }
+        }
+    },
+    "collections":{
+        "caption":"Collections",
+        "type":"section",
+        "settings":{
+            "enable_type_filter":{
+                "caption":"Enable product type filter",
+                "type":"checkbox",
+                "default":true
+            },
+            "enable_vendor_filter":{
+                "caption":"Enable vendor/brand filter",
+                "type":"checkbox",
+                "default":true
+            },
+            "enable_tag_grouping":{
+                "caption":"Enable tag grouping",
+                "type":"checkbox",
+                "default":true,
+                "description":"Tag your products with ie. TASTE_salty"
+            }
+        }
+    },
+    "cart":{
+        "caption":"Cart",
+        "type":"section",
+        "settings":{
+            "cart_notes_enable":{
+                "caption":"Enable personal message in cart",
+                "type":"checkbox",
+                "default":true
+            }
+        }
+    }
+}

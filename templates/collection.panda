@@ -1,0 +1,81 @@
+{% paginate collection.products by 12 %}
+
+{% include 'breadcrumbs' %}
+
+<div class="grid grid-border">
+
+	<div class="grid-item large--one-quarter" id="collection-filters">
+		{% include 'collection-sidebar' %}
+	</div>
+
+	<div class="grid-item large--three-quarters grid-border--left">
+
+		{% comment %}
+			Different markup if a collection description exists
+		{% endcomment %}
+		{% if collection.content != '' %}
+			<header class="section-header">
+				<h1 class="section-header--title">{{ collection.h1_title }}</h1>
+				<div class="rte rte--header">
+					{{ collection.content }}
+				</div>
+			</header>
+			<hr>
+			<div class="section-header">
+				<div class="section-header--right">
+					{% include 'collection-views' %}
+				</div>
+			</div>
+		{% else %}
+			<header class="section-header">
+				<h1 class="section-header--title section-header--left">{{ collection.h1_title }}</h1>
+				<div class="section-header--right">
+					{% include 'collection-views' %}
+				</div>
+			</header>
+		{% endif %}
+
+		{% comment %}
+			Use class grid-uniform to have evenly sized columns clear
+			each other properly at each breakpoint.
+		{% endcomment %}
+		<div class="grid-uniform">
+
+			{% comment %}
+				Loop through our products in the current collection.
+				See the snippet 'product-grid-item' for the layout.
+			{% endcomment %}
+			{% if collection.products_count > 0 %}
+    			{% for product in collection.products %}
+    
+                    {% if request.view == 'list' %}
+                        {% include 'product-list-item' %} 
+                    {% else %}
+                        {% assign grid_item_width = 'large--one-quarter medium--one-third small--one-half' %}
+    				    {% include 'product-grid-item' %}
+    				{% endif %}
+    
+    			{% endfor %}
+    		{% else %}
+
+				<div class="grid-item">
+					<p>{{ lang.no_products_found | def:'No products found'}}</p>
+				</div>
+
+			{% endif %}
+
+		</div>
+
+		{% if paginate.pages > 1 %}
+			<hr>
+
+			<div class="text-center">
+				{% include 'pagination-custom' %}
+			</div>
+		{% endif %}
+
+	</div>
+
+</div>
+
+{% endpaginate %}
