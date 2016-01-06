@@ -9,7 +9,7 @@
 
 		{% if search.performed %}
 
-			{% paginate search.results by 10 %}
+			{% paginate search.results by 12 %}
 
 				{% comment %}
 					We don't have any results to show. Feel free to show off featured products
